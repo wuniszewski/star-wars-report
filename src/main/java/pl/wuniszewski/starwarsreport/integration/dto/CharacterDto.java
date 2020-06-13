@@ -10,6 +10,7 @@ public class CharacterDto {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -17,6 +18,7 @@ public class CharacterDto {
     public String getUrl() {
         return url;
     }
+
     public void setUrl(String url) {
         this.url = url;
     }
@@ -24,6 +26,7 @@ public class CharacterDto {
     public List<String> getFilms() {
         return films;
     }
+
     public void setFilms(List<String> films) {
         this.films = films;
     }

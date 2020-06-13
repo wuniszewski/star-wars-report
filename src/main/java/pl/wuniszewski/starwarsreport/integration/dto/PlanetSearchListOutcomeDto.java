@@ -8,6 +8,7 @@ public class PlanetSearchListOutcomeDto {
     public List<PlanetSearchResultDto> getResults() {
         return results;
     }
+
     public void setResults(List<PlanetSearchResultDto> results) {
         this.results = results;
     }
