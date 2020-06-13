@@ -3,13 +3,13 @@ package pl.wuniszewski.starwarsreport.integration.dto;
 import java.util.List;
 
 public class PlanetSearchListOutcomeDto {
-    private List<PlanetSearchResultDto> results;
+    private List<PlanetDto> results;
 
-    public List<PlanetSearchResultDto> getResults() {
+    public List<PlanetDto> getResults() {
         return results;
     }
 
-    public void setResults(List<PlanetSearchResultDto> results) {
+    public void setResults(List<PlanetDto> results) {
         this.results = results;
     }
 }

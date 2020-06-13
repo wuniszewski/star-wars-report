@@ -7,7 +7,7 @@ import org.springframework.web.client.RestTemplate;
 import pl.wuniszewski.starwarsreport.integration.dto.CharacterDto;
 import pl.wuniszewski.starwarsreport.integration.dto.FilmDto;
 import pl.wuniszewski.starwarsreport.integration.dto.PlanetSearchListOutcomeDto;
-import pl.wuniszewski.starwarsreport.integration.dto.PlanetSearchResultDto;
+import pl.wuniszewski.starwarsreport.integration.dto.PlanetDto;
 import pl.wuniszewski.starwarsreport.integration.exception.ResourceNotFoundException;
 
 import java.util.ArrayList;
@@ -26,30 +26,20 @@ public class IntegrationService {
         this.restTemplate = restTemplate;
     }
 
-    public PlanetSearchListOutcomeDto getPlanetByName(String planetName) {
+    public List<PlanetDto> getPlanetsByName(String planetName) {
+        return getPlanetSearchListOutcome(planetName).getResults();
+    }
+    private PlanetSearchListOutcomeDto getPlanetSearchListOutcome (String planetName) {
         return restTemplate.getForObject(urlPlanetSearchPrefix + planetName,
                 PlanetSearchListOutcomeDto.class);
     }
 
-    public PlanetSearchResultDto getPlanetSearchResult(PlanetSearchListOutcomeDto planetSearchListOutcomeDto) {
-        return planetSearchListOutcomeDto.getResults().stream()
-                .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("No planet found"));
+    public CharacterDto getPlanetResidents(String url) {
+        return restTemplate.getForObject(url, CharacterDto.class);
     }
 
-    public List<CharacterDto> getPlanetResidents(PlanetSearchResultDto planet) {
-        List<CharacterDto> residents = new ArrayList<>();
-        planet.getResidents()
-                .forEach(resident ->
-                        residents.add(restTemplate.getForObject(resident, CharacterDto.class)));
-        return residents;
-    }
-
-    public List<FilmDto> getFilmsByCharacter(CharacterDto characterDto) {
-        List<FilmDto> films = new ArrayList<>();
-        characterDto.getFilms().forEach(film ->
-                films.add(restTemplate.getForObject(film, FilmDto.class)));
-        return films;
+    public FilmDto getFilmsByEndpoint(String url) {
+        return restTemplate.getForObject(url, FilmDto.class);
     }
 
 

@@ -14,6 +14,12 @@ public class Report {
     @JoinColumn(name = "id_report")
     private Set<Result> result = new HashSet<>();
 
+    public Report(Long id) {
+        this.id = id;
+    }
+    public Report() {
+    }
+
     public Long getId() {
         return id;
     }
