@@ -6,11 +6,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import pl.wuniszewski.starwarsreport.integration.dto.CharacterDto;
 import pl.wuniszewski.starwarsreport.integration.dto.FilmDto;
-import pl.wuniszewski.starwarsreport.integration.dto.PlanetSearchListOutcomeDto;
 import pl.wuniszewski.starwarsreport.integration.dto.PlanetDto;
-import pl.wuniszewski.starwarsreport.integration.exception.ResourceNotFoundException;
+import pl.wuniszewski.starwarsreport.integration.dto.PlanetSearchListOutcomeDto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
