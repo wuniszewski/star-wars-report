@@ -46,6 +46,7 @@ public class ReportGeneratorService {
         oldReport.setResult(generateResults(criteria));
         saveReport(oldReport);
     }
+
     @Transactional
     public void saveReport(Report report) {
         reportRepository.save(report);
@@ -76,13 +77,13 @@ public class ReportGeneratorService {
     }
 
     private boolean isPlanetCorrect(QueryCriteriaDto criteria, List<PlanetDto> planetResults) {
-        return !planetResults.isEmpty() | isAnyPlanetSuitable(criteria, planetResults);
+        return !planetResults.isEmpty() && isAnyPlanetSuitable(criteria, planetResults);
     }
 
     private boolean isAnyPlanetSuitable(QueryCriteriaDto criteria, List<PlanetDto> planetResults) {
         return !planetResults.stream()
                 .filter(planet -> planet.getName().toLowerCase().
-                        equals(criteria.getQueryCriteriaPlanetName()))
+                        equals(criteria.getQueryCriteriaPlanetName().toLowerCase()))
                 .collect(Collectors.toList())
                 .isEmpty();
     }

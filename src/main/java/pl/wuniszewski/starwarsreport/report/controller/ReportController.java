@@ -1,9 +1,7 @@
 package pl.wuniszewski.starwarsreport.report.controller;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.wuniszewski.starwarsreport.report.converter.ReportConverter;
 import pl.wuniszewski.starwarsreport.report.dto.QueryCriteriaDto;
@@ -17,7 +15,7 @@ import pl.wuniszewski.starwarsreport.report.service.ReportQueryService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping("/report")
 class ReportController {
     private ReportQueryService queryService;
@@ -25,7 +23,7 @@ class ReportController {
     private ReportConverter reportConverter;
 
     @Autowired
-    ReportController(ModelMapper modelMapper, ReportQueryService queryService, ReportGeneratorService generatorService, ReportConverter reportConverter) {
+    ReportController(ReportQueryService queryService, ReportGeneratorService generatorService, ReportConverter reportConverter) {
         this.queryService = queryService;
         this.generatorService = generatorService;
         this.reportConverter = reportConverter;

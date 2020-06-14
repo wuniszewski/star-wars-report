@@ -1,11 +1,11 @@
-package pl.wuniszewski.starwarsreport.report.converter;
+package pl.wuniszewski.starwarsreport.report.util;
 
 import pl.wuniszewski.starwarsreport.report.exception.IncorrectUrlException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public interface UrlToIdConverter {
+public interface IdFromUrlExtraction {
 
     static Long extractIdFromUrl (String url) throws IncorrectUrlException {
         Pattern idExtractionPattern = Pattern.compile("(\\d+)(?!.*\\d)");

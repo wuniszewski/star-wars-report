@@ -3,8 +3,7 @@ package pl.wuniszewski.starwarsreport.report.entity;
 import pl.wuniszewski.starwarsreport.integration.dto.CharacterDto;
 import pl.wuniszewski.starwarsreport.integration.dto.FilmDto;
 import pl.wuniszewski.starwarsreport.integration.dto.PlanetDto;
-import pl.wuniszewski.starwarsreport.report.converter.UrlToIdConverter;
-import pl.wuniszewski.starwarsreport.report.exception.IncorrectUrlException;
+import pl.wuniszewski.starwarsreport.report.util.IdFromUrlExtraction;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity(name = "results")
-public class Result implements UrlToIdConverter {
+public class Result implements IdFromUrlExtraction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -102,21 +101,33 @@ public class Result implements UrlToIdConverter {
         public ResultBuilder() {
         }
 
-        public ResultBuilder setFilmInfo(FilmDto film) throws IncorrectUrlException {
-            this.filmId = UrlToIdConverter.extractIdFromUrl(film.getUrl());
+        public ResultBuilder setFilmId(Long id) {
+            this.filmId = id;
+            return this;
+        }
+
+        public ResultBuilder setFilmName(FilmDto film) {
             this.filmName = film.getTitle();
             return this;
         }
 
-        public ResultBuilder setResidentInfo(CharacterDto character) throws IncorrectUrlException {
-            this.characterId = UrlToIdConverter.extractIdFromUrl(character.getUrl());
-            this.filmName = character.getName();
+        public ResultBuilder setCharacterId(Long id) {
+            this.characterId = id;
             return this;
         }
 
-        public ResultBuilder setPlanetInfo(PlanetDto planet) throws IncorrectUrlException {
-            this.planetId = UrlToIdConverter.extractIdFromUrl(planet.getUrl());
-            this.planetName = planet.getName();
+        public ResultBuilder setCharacterName(CharacterDto character) {
+            this.characterName = character.getName();
+            return this;
+        }
+
+        public ResultBuilder setPlanetId(Long id) {
+            this.planetId = id;
+            return this;
+        }
+
+        public ResultBuilder setPlanetName(PlanetDto planet) {
+            this.planetName= planet.getName();
             return this;
         }
 
