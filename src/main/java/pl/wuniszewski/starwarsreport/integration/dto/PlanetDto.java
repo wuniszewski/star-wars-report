@@ -7,6 +7,14 @@ public class PlanetDto {
     private String url;
     private List<String> residents;
 
+    public PlanetDto(String name, String url) {
+        this.name = name;
+        this.url = url;
+    }
+
+    public PlanetDto() {
+    }
+
     public String getName() {
         return name;
     }

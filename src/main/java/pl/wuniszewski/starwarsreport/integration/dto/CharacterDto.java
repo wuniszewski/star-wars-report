@@ -7,6 +7,14 @@ public class CharacterDto {
     private String url;
     private List<String> films;
 
+    public CharacterDto(String name, String url) {
+        this.name = name;
+        this.url = url;
+    }
+
+    public CharacterDto() {
+    }
+
     public String getName() {
         return name;
     }
