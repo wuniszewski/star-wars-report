@@ -12,12 +12,6 @@ import pl.wuniszewski.starwarsreport.report.util.IdFromUrlExtraction;
 
 @Component
 public class ResultConverter {
-    private ModelMapper modelMapper;
-
-    @Autowired
-    public ResultConverter(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
 
     public Result convertToEntity(FilmDto film, CharacterDto character, PlanetDto planet) throws IncorrectUrlException {
         return new Result.ResultBuilder()
