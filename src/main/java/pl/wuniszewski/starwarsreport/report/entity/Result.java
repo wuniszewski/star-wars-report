@@ -106,8 +106,8 @@ public class Result implements IdFromUrlExtraction {
             return this;
         }
 
-        public ResultBuilder setFilmName(FilmDto film) {
-            this.filmName = film.getTitle();
+        public ResultBuilder setFilmName(String filmName) {
+            this.filmName = filmName;
             return this;
         }
 
@@ -116,8 +116,8 @@ public class Result implements IdFromUrlExtraction {
             return this;
         }
 
-        public ResultBuilder setCharacterName(CharacterDto character) {
-            this.characterName = character.getName();
+        public ResultBuilder setCharacterName(String characterName) {
+            this.characterName = characterName;
             return this;
         }
 
@@ -126,8 +126,8 @@ public class Result implements IdFromUrlExtraction {
             return this;
         }
 
-        public ResultBuilder setPlanetName(PlanetDto planet) {
-            this.planetName= planet.getName();
+        public ResultBuilder setPlanetName(String planetName) {
+            this.planetName= planetName;
             return this;
         }
 

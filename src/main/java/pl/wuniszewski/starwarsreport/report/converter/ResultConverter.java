@@ -22,11 +22,11 @@ public class ResultConverter {
     public Result convertToEntity(FilmDto film, CharacterDto character, PlanetDto planet) throws IncorrectUrlException {
         return new Result.ResultBuilder()
                 .setFilmId(IdFromUrlExtraction.extractIdFromUrl(film.getUrl()))
-                .setFilmName(film)
+                .setFilmName(film.getTitle())
                 .setCharacterId(IdFromUrlExtraction.extractIdFromUrl(character.getUrl()))
-                .setCharacterName(character)
+                .setCharacterName(character.getName())
                 .setPlanetId(IdFromUrlExtraction.extractIdFromUrl(planet.getUrl()))
-                .setPlanetName(planet)
+                .setPlanetName(planet.getName())
                 .build();
     }
 }
