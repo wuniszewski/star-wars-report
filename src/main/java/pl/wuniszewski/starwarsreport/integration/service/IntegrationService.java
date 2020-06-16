@@ -8,6 +8,7 @@ import pl.wuniszewski.starwarsreport.integration.dto.CharacterDto;
 import pl.wuniszewski.starwarsreport.integration.dto.FilmDto;
 import pl.wuniszewski.starwarsreport.integration.dto.PlanetDto;
 import pl.wuniszewski.starwarsreport.integration.dto.PlanetSearchListOutcomeDto;
+import pl.wuniszewski.starwarsreport.integration.exception.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -24,20 +25,32 @@ public class IntegrationService {
         this.restTemplate = restTemplate;
     }
 
-    public List<PlanetDto> getPlanetsByName(String planetName) {
+    public List<PlanetDto> getPlanetsByName(String planetName) throws ResourceNotFoundException {
         return getPlanetSearchListOutcome(planetName).getResults();
     }
-    private PlanetSearchListOutcomeDto getPlanetSearchListOutcome (String planetName) {
-        return restTemplate.getForObject(urlPlanetSearchPrefix + planetName,
+    private PlanetSearchListOutcomeDto getPlanetSearchListOutcome (String planetName) throws ResourceNotFoundException {
+        PlanetSearchListOutcomeDto planetSerch = restTemplate.getForObject(urlPlanetSearchPrefix + planetName,
                 PlanetSearchListOutcomeDto.class);
+        if (planetSerch == null) {
+            throw new ResourceNotFoundException();
+        }
+        return planetSerch;
     }
 
-    public CharacterDto getPlanetResidents(String url) {
-        return restTemplate.getForObject(url, CharacterDto.class);
+    public CharacterDto getCharacterByEndpoint(String url) throws ResourceNotFoundException {
+        CharacterDto character = restTemplate.getForObject(url, CharacterDto.class);
+        if (character == null) {
+            throw new ResourceNotFoundException();
+        }
+        return character;
     }
 
-    public FilmDto getFilmsByEndpoint(String url) {
-        return restTemplate.getForObject(url, FilmDto.class);
+    public FilmDto getFilmsByEndpoint(String url) throws ResourceNotFoundException {
+        FilmDto film = restTemplate.getForObject(url, FilmDto.class);
+        if (film == null) {
+            throw new ResourceNotFoundException();
+        }
+        return film;
     }
 
 
