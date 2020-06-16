@@ -1,6 +1,5 @@
 package pl.wuniszewski.starwarsreport.report.converter;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,26 +11,15 @@ import pl.wuniszewski.starwarsreport.report.entity.Result;
 import pl.wuniszewski.starwarsreport.report.exception.IncorrectUrlException;
 import pl.wuniszewski.starwarsreport.report.util.IdFromUrlExtraction;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 @ExtendWith(MockitoExtension.class)
 class ResultConverterTest {
 
-    private static Result result;
 
     @InjectMocks
     private ResultConverter resultConverter;
-
-    @BeforeAll
-    private static void setUp() {
-        result = new Result.ResultBuilder()
-                .setFilmId(3L)
-                .setFilmName("Film")
-                .setCharacterId(3L)
-                .setCharacterName("Resident")
-                .setPlanetId(3L)
-                .setPlanetName("Planet")
-                .build();
-    }
 
     @Test
     public void convertToEntity_shouldResultFieldsNamesBeEqualToGivenParamFieldsAfterExtraction() throws IncorrectUrlException {
@@ -49,15 +37,29 @@ class ResultConverterTest {
         assertEquals(result.getFilmName(), filmDto.getTitle());
         assertEquals(result.getPlanetName(), planetDto.getName());
     }
+
     @Test
-    public void convertToEntity_shouldReturnEmptyResultGivenNull () throws IncorrectUrlException {
-//        //given
-//        FilmDto filmDto = new FilmDto();
-//        CharacterDto characterDto = new CharacterDto();
-//        PlanetDto planetDto = new PlanetDto();
-//        //when
-//        Result result = resultConverter.convertToEntity(filmDto, characterDto, planetDto);
-//
+    public void convertToEntity_shouldThrowIncorrectUrlExcGivenWrongUrlParams() {
+        //given
+        FilmDto filmDto = new FilmDto("Film", "http://localhost:8080/api/films/");
+        CharacterDto characterDto = new CharacterDto("Resident", "wrong url");
+        PlanetDto planetDto = new PlanetDto("Good planet", "http://localhost:8080/api/planet/3/");
+        //then
+        assertThrows(IncorrectUrlException.class, () -> {
+            resultConverter.convertToEntity(filmDto, characterDto, planetDto);
+        });
+    }
+
+    @Test
+    public void convertToEntity_shouldThrowNullPointerGivenEmptyParams() {
+        //given
+        FilmDto filmDto = new FilmDto();
+        CharacterDto characterDto = new CharacterDto();
+        PlanetDto planetDto = new PlanetDto();
+        //then
+        assertThrows(NullPointerException.class, () -> {
+            resultConverter.convertToEntity(filmDto, characterDto, planetDto);
+        });
     }
 
 }
