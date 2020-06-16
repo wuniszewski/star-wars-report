@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.wuniszewski.starwarsreport.integration.dto.CharacterDto;
 import pl.wuniszewski.starwarsreport.integration.dto.FilmDto;
 import pl.wuniszewski.starwarsreport.integration.dto.PlanetDto;
+import pl.wuniszewski.starwarsreport.integration.exception.ResourceNotFoundException;
 import pl.wuniszewski.starwarsreport.integration.service.IntegrationService;
 import pl.wuniszewski.starwarsreport.report.converter.ResultConverter;
 import pl.wuniszewski.starwarsreport.report.dto.QueryCriteriaDto;
@@ -13,6 +14,7 @@ import pl.wuniszewski.starwarsreport.report.entity.Report;
 import pl.wuniszewski.starwarsreport.report.entity.Result;
 import pl.wuniszewski.starwarsreport.report.exception.IncorrectUrlException;
 import pl.wuniszewski.starwarsreport.report.exception.NotExistingResourceException;
+import pl.wuniszewski.starwarsreport.report.exception.WrongUrlsInResourceException;
 import pl.wuniszewski.starwarsreport.report.repository.ReportRepository;
 
 import java.util.HashSet;
@@ -37,13 +39,21 @@ public class ReportGeneratorService {
     public void createReport(Long id, QueryCriteriaDto criteria) {
         Report newReport = new Report(id);
         setReportCriteria(newReport, criteria);
-        newReport.setResult(generateResults(criteria));
+        try {
+            newReport.setResult(generateResults(criteria));
+        } catch (ResourceNotFoundException e) {
+            throw new WrongUrlsInResourceException("Wrong URL in resource");
+        }
         saveReport(newReport);
     }
 
     public void updateReport(Report oldReport, QueryCriteriaDto criteria) {
         setReportCriteria(oldReport, criteria);
-        oldReport.setResult(generateResults(criteria));
+        try {
+            oldReport.setResult(generateResults(criteria));
+        } catch (ResourceNotFoundException e) {
+            throw new WrongUrlsInResourceException("Wrong URL in resource");
+        }
         saveReport(oldReport);
     }
 
@@ -52,14 +62,14 @@ public class ReportGeneratorService {
         reportRepository.save(report);
     }
 
-    private Set<Result> generateResults(QueryCriteriaDto criteria) {
+    private Set<Result> generateResults(QueryCriteriaDto criteria) throws ResourceNotFoundException {
         Set<Result> results = new HashSet<>();
         List<PlanetDto> planetSearchResults = integrationService.getPlanetsByName(criteria.getQueryCriteriaPlanetName());
         if (isPlanetCorrect(criteria, planetSearchResults)) {
             PlanetDto planet = planetSearchResults.stream().findFirst()
                     .orElseThrow(() -> new RuntimeException());
             for (String residentUrl : planet.getResidents()) {
-                CharacterDto resident = integrationService.getPlanetResidents(residentUrl);
+                CharacterDto resident = integrationService.getCharacterByEndpoint(residentUrl);
                 if (nameContainsPhrase(criteria, resident)) {
                     for (String filmUrl : resident.getFilms()) {
                         FilmDto film = integrationService.getFilmsByEndpoint(filmUrl);

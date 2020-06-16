@@ -29,28 +29,36 @@ public class IntegrationService {
         return getPlanetSearchListOutcome(planetName).getResults();
     }
     private PlanetSearchListOutcomeDto getPlanetSearchListOutcome (String planetName) throws ResourceNotFoundException {
-        PlanetSearchListOutcomeDto planetSerch = restTemplate.getForObject(urlPlanetSearchPrefix + planetName,
+        PlanetSearchListOutcomeDto planetSearch = restTemplate.getForObject(urlPlanetSearchPrefix + planetName,
                 PlanetSearchListOutcomeDto.class);
-        if (planetSerch == null) {
+        if (planetSearch == null | planetSearch.getResults() == null) {
             throw new ResourceNotFoundException();
         }
-        return planetSerch;
+        return planetSearch;
     }
 
     public CharacterDto getCharacterByEndpoint(String url) throws ResourceNotFoundException {
         CharacterDto character = restTemplate.getForObject(url, CharacterDto.class);
-        if (character == null) {
+        if (isCharacterNullOrEmpty(character)) {
             throw new ResourceNotFoundException();
         }
         return character;
     }
 
+    private boolean isCharacterNullOrEmpty(CharacterDto character) {
+        return character == null | character.getFilms() == null | character.getName() == null | character.getUrl() == null;
+    }
+
     public FilmDto getFilmsByEndpoint(String url) throws ResourceNotFoundException {
         FilmDto film = restTemplate.getForObject(url, FilmDto.class);
-        if (film == null) {
+        if (isFilmNullOrEmpty(film)) {
             throw new ResourceNotFoundException();
         }
         return film;
+    }
+
+    private boolean isFilmNullOrEmpty(FilmDto film) {
+        return film == null | film.getTitle() == null | film.getUrl() == null;
     }
 
 
