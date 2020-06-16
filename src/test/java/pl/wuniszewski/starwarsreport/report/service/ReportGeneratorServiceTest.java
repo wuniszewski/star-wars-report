@@ -154,7 +154,7 @@ class ReportGeneratorServiceTest {
         film.setTitle("film");
         when(integrationService.getPlanetsByName(anyString())).thenReturn(planets);
         when(integrationService.getCharacterByEndpoint(anyString())).thenReturn(character);
-        when(integrationService.getFilmsByEndpoint(anyString())).thenReturn(film);
+        when(integrationService.getFilmByEndpoint(anyString())).thenReturn(film);
         when(resultConverter.convertToEntity(any(FilmDto.class), any(CharacterDto.class), any(PlanetDto.class)))
                 .thenReturn(result);
         doAnswer(i -> {
@@ -191,7 +191,7 @@ class ReportGeneratorServiceTest {
         film.setTitle("film");
         when(integrationService.getPlanetsByName(anyString())).thenReturn(planets);
         when(integrationService.getCharacterByEndpoint(anyString())).thenReturn(character);
-        when(integrationService.getFilmsByEndpoint(anyString())).thenReturn(film);
+        when(integrationService.getFilmByEndpoint(anyString())).thenReturn(film);
         when(resultConverter.convertToEntity(any(FilmDto.class), any(CharacterDto.class), any(PlanetDto.class)))
                 .thenThrow(IncorrectUrlException.class);
         //then

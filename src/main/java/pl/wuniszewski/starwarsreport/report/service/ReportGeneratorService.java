@@ -72,7 +72,7 @@ public class ReportGeneratorService {
                 CharacterDto resident = integrationService.getCharacterByEndpoint(residentUrl);
                 if (nameContainsPhrase(criteria, resident)) {
                     for (String filmUrl : resident.getFilms()) {
-                        FilmDto film = integrationService.getFilmsByEndpoint(filmUrl);
+                        FilmDto film = integrationService.getFilmByEndpoint(filmUrl);
                         try {
                             results.add(resultConverter.convertToEntity(film, resident, planet));
                         } catch (IncorrectUrlException e) {
