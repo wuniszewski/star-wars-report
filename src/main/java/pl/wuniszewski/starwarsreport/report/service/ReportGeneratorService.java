@@ -67,7 +67,7 @@ public class ReportGeneratorService {
         List<PlanetDto> planetSearchResults = integrationService.getPlanetsByName(criteria.getQueryCriteriaPlanetName());
         if (isPlanetCorrect(criteria, planetSearchResults)) {
             PlanetDto planet = planetSearchResults.stream().findFirst()
-                    .orElseThrow(() -> new RuntimeException());
+                    .orElseThrow(() -> new RuntimeException("Planet not found"));
             for (String residentUrl : planet.getResidents()) {
                 CharacterDto resident = integrationService.getCharacterByEndpoint(residentUrl);
                 if (nameContainsPhrase(criteria, resident)) {
@@ -78,7 +78,6 @@ public class ReportGeneratorService {
                         } catch (IncorrectUrlException e) {
                             throw new NotExistingResourceException("Wrong URL in resource");
                         }
-
                     }
                 }
             }
