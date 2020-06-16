@@ -38,7 +38,7 @@ public class IntegrationService {
             planetSearch = new PlanetSearchListOutcomeDto();
         }
         if (planetSearch == null || planetSearch.getResults() == null) {
-            throw new NotExistingResourceException("Wrong URL in resource");
+            throw new NotExistingResourceException("Server is down.");
         }
         return planetSearch;
     }
@@ -51,7 +51,7 @@ public class IntegrationService {
             character = new CharacterDto();
         }
         if (isCharacterNullOrEmpty(character)) {
-            throw new NotExistingResourceException("Wrong URL in resource");
+            throw new NotExistingResourceException("Server is down.");
         }
         return character;
     }
@@ -68,7 +68,7 @@ public class IntegrationService {
             film = new FilmDto();
         }
         if (isFilmNullOrEmpty(film)) {
-            throw new NotExistingResourceException("Wrong URL in resource");
+            throw new NotExistingResourceException("Server is down.");
         }
         return film;
     }
