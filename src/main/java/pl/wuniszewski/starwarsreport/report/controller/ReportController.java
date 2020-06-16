@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/report")
 class ReportController {
+
     private ReportQueryService queryService;
     private ReportGeneratorService generatorService;
     private ReportConverter reportConverter;
@@ -45,7 +46,7 @@ class ReportController {
     @DeleteMapping("/{reportId}")
     public void deleteById(@PathVariable(name = "reportId") Long id) {
         if (id == null) {
-            throw new BadRequestValueException("Id cannot be null");
+            throw new BadRequestValueException("Id cannot be null.");
         }
         generatorService.deleteById(id);
     }
@@ -59,7 +60,7 @@ class ReportController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void generateReport(@PathVariable(name = "reportId") Long id, @RequestBody QueryCriteriaDto criteria) {
         if (validateQueryCriteria(criteria)) {
-            throw new BadRequestValueException("No query criteria given");
+            throw new BadRequestValueException("No query criteria given.");
         }
         try {
             generatorService.updateReport(queryService.findById(id), criteria);
@@ -68,7 +69,7 @@ class ReportController {
         }
     }
 
-    private boolean validateQueryCriteria(@RequestBody QueryCriteriaDto queryCriteria) {
+    private boolean validateQueryCriteria(QueryCriteriaDto queryCriteria) {
         return queryCriteria.getQueryCriteriaPlanetName() == null || queryCriteria.getQueryCriteriaCharacterPhrase() == null;
     }
 }

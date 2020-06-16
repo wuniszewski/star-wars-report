@@ -10,6 +10,7 @@ import java.util.List;
 
 @Service
 public class ReportQueryService {
+
     private ReportRepository reportRepository;
 
     @Autowired
@@ -17,7 +18,7 @@ public class ReportQueryService {
         this.reportRepository = reportRepository;
     }
 
-    public Report findById(Long id) throws NotExistingResourceException {
+    public Report findById(Long id) {
         return reportRepository.findById(id).orElseThrow(() ->
                 new NotExistingResourceException("No resource found with ID: " + id));
     }
@@ -25,5 +26,4 @@ public class ReportQueryService {
     public List<Report> findAll() {
         return reportRepository.findAll();
     }
-
 }

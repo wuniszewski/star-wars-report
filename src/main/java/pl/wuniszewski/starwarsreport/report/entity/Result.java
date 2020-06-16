@@ -1,8 +1,5 @@
 package pl.wuniszewski.starwarsreport.report.entity;
 
-import pl.wuniszewski.starwarsreport.integration.dto.CharacterDto;
-import pl.wuniszewski.starwarsreport.integration.dto.FilmDto;
-import pl.wuniszewski.starwarsreport.integration.dto.PlanetDto;
 import pl.wuniszewski.starwarsreport.report.util.IdFromUrlExtraction;
 
 import javax.persistence.Entity;
@@ -12,6 +9,7 @@ import javax.persistence.Id;
 
 @Entity(name = "results")
 public class Result implements IdFromUrlExtraction {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,7 +23,8 @@ public class Result implements IdFromUrlExtraction {
     public Result() {
     }
 
-    public Result(Long filmId, String filmName, Long characterId, String characterName, Long planetId, String planetName) {
+    public Result(Long filmId, String filmName, Long characterId, String characterName,
+                  Long planetId, String planetName) {
         this.filmId = filmId;
         this.filmName = filmName;
         this.characterId = characterId;
@@ -91,6 +90,7 @@ public class Result implements IdFromUrlExtraction {
     }
 
     public static class ResultBuilder {
+
         private Long filmId;
         private String filmName;
         private Long characterId;

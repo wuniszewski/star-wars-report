@@ -22,32 +22,32 @@ class ReportQueryServiceTest {
 
     @Mock
     private ReportRepository repository;
-
     @InjectMocks
     private ReportQueryService service;
 
     @Test
-    public void findById_shouldReturnReportWhenReportExists () {
+    public void findById_shouldReturnReportWhenReportExists() {
         when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(new Report()));
         assertTrue(service.findById(2L) != null);
     }
 
     @Test
-    public void findById_shouldThrowNotExistingResourceExcGivenMissingId () {
+    public void findById_shouldThrowNotExistingResourceExcGivenMissingId() {
         when(repository.findById(anyLong())).thenReturn(Optional.empty());
         assertThrows(NotExistingResourceException.class, () -> {
             service.findById(2L);
         });
     }
+
     @Test
-    public void findAll_shouldReturnListWhenInDBExistReports () {
+    public void findAll_shouldReturnListWhenInDBExistReports() {
         when(repository.findAll()).thenReturn(Arrays.asList(new Report(), new Report()));
         assertFalse(service.findAll().isEmpty());
     }
+
     @Test
-    public void findAll_shouldReturnEmptyListWhenNoReportsInDB () {
+    public void findAll_shouldReturnEmptyListWhenNoReportsInDB() {
         when(repository.findAll()).thenReturn(new ArrayList<Report>());
         assertTrue(service.findAll().isEmpty());
     }
-
 }

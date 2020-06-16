@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -13,13 +12,14 @@ import pl.wuniszewski.starwarsreport.integration.dto.CharacterDto;
 import pl.wuniszewski.starwarsreport.integration.dto.FilmDto;
 import pl.wuniszewski.starwarsreport.integration.dto.PlanetDto;
 import pl.wuniszewski.starwarsreport.integration.dto.PlanetSearchListOutcomeDto;
-import pl.wuniszewski.starwarsreport.integration.exception.ResourceNotFoundException;
+import pl.wuniszewski.starwarsreport.report.exception.NotExistingResourceException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,7 +36,7 @@ class IntegrationServiceTest {
     private FilmDto filmDto = new FilmDto();
 
     @BeforeEach
-    public void setUp () {
+    public void setUp() {
         filmDto.setTitle("Rise of the Empire");
         filmDto.setUrl("http://localhost:8080/api/films/2/");
         characterDto.setName("Luke");
@@ -49,28 +49,31 @@ class IntegrationServiceTest {
         planets.add(planetDto);
         planetSearch.setResults(planets);
     }
+
     @Test
-    public void getPlanetsByName_shouldReturnListWithPlanetsGivenValidPlanetName () throws ResourceNotFoundException {
+    public void getPlanetsByName_shouldReturnListWithPlanetsGivenValidPlanetName() {
         //given
         //null added because of the @Value annotation not working
-        when(restTemplate.getForObject("nullTatooine", PlanetSearchListOutcomeDto.class)).thenReturn(planetSearch);
+        when(restTemplate.getForObject("null/planets/?search=Tatooine", PlanetSearchListOutcomeDto.class)).thenReturn(planetSearch);
         //when
         List<PlanetDto> result = service.getPlanetsByName("Tatooine");
         //then
         assertEquals(result, planets);
     }
+
     @Test
-    public void getPlanetsByName_shouldThrowResourceNotFoundExcGivenWrongPlanetName () {
+    public void getPlanetsByName_shouldThrowNotExistingResourceExcGivenWrongPlanetName() {
         //given
-        when(restTemplate.getForObject("null", PlanetSearchListOutcomeDto.class))
+        when(restTemplate.getForObject("null/planets/?search=", PlanetSearchListOutcomeDto.class))
                 .thenReturn(null);
         //then
-        assertThrows(ResourceNotFoundException.class, () -> {
+        assertThrows(NotExistingResourceException.class, () -> {
             service.getPlanetsByName("");
         });
     }
+
     @Test
-    public void getCharacterByEndpoint_shouldReturnCharacterGivenRightUrl () throws ResourceNotFoundException {
+    public void getCharacterByEndpoint_shouldReturnCharacterGivenRightUrl() {
         //given
         when(restTemplate.getForObject(anyString(), any())).thenReturn(characterDto);
         //when
@@ -78,26 +81,29 @@ class IntegrationServiceTest {
         //then
         assertEquals(character, characterDto);
     }
+
     @Test
-    public void getCharacterByEndpoint_shouldThrowResourceNotFoundGivenWrongUrl () {
+    public void getCharacterByEndpoint_shouldThrowNotExistingResourceExcGivenWrongUrl() {
         //given
         when(restTemplate.getForObject(anyString(), any())).thenReturn(null);
         //then
-        assertThrows(ResourceNotFoundException.class, () -> {
+        assertThrows(NotExistingResourceException.class, () -> {
             service.getCharacterByEndpoint("wrong url");
         });
     }
+
     @Test
-    public void getCharacterByEndpoint_shouldThrowResourceNotFoundGivenRestTemplateException() {
+    public void getCharacterByEndpoint_shouldThrowNotExistingResourceExcGivenRestTemplateException() {
         //given
         when(restTemplate.getForObject(anyString(), any())).thenThrow(RestClientException.class);
         //then
-        assertThrows(ResourceNotFoundException.class, () -> {
+        assertThrows(NotExistingResourceException.class, () -> {
             service.getCharacterByEndpoint("wrong url");
         });
     }
+
     @Test
-    public void getFilmByEndpoint_shouldReturnFilmGivenRightUrl () throws ResourceNotFoundException {
+    public void getFilmByEndpoint_shouldReturnFilmGivenRightUrl() {
         //given
         when(restTemplate.getForObject(anyString(), any())).thenReturn(filmDto);
         //when
@@ -105,25 +111,24 @@ class IntegrationServiceTest {
         //then
         assertEquals(film, filmDto);
     }
+
     @Test
-    public void getFilmByEndpoint_shouldThrowResourceNotFoundGivenWrongUrl () {
+    public void getFilmByEndpoint_shouldThrowNotExistingResourceExcGivenWrongUrl() {
         //given
         when(restTemplate.getForObject(anyString(), any())).thenReturn(null);
         //then
-        assertThrows(ResourceNotFoundException.class, () -> {
+        assertThrows(NotExistingResourceException.class, () -> {
             service.getFilmByEndpoint("wrong url");
         });
     }
+
     @Test
-    public void getFilmByEndpoint_shouldThrowResourceNotFoundGivenRestTemplateException () {
+    public void getFilmByEndpoint_shouldThrowNotExistingResourceExcGivenRestTemplateException() {
         //given
         when(restTemplate.getForObject(anyString(), any())).thenThrow(RestClientException.class);
         //then
-        assertThrows(ResourceNotFoundException.class, () -> {
+        assertThrows(NotExistingResourceException.class, () -> {
             service.getFilmByEndpoint("wrong url");
         });
     }
-
-
-
 }

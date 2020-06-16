@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(MockitoExtension.class)
 class ResultConverterTest {
 
-
     @InjectMocks
     private ResultConverter resultConverter;
 
@@ -49,17 +48,4 @@ class ResultConverterTest {
             resultConverter.convertToEntity(filmDto, characterDto, planetDto);
         });
     }
-
-    @Test
-    public void convertToEntity_shouldThrowNullPointerGivenEmptyParams() {
-        //given
-        FilmDto filmDto = new FilmDto();
-        CharacterDto characterDto = new CharacterDto();
-        PlanetDto planetDto = new PlanetDto();
-        //then
-        assertThrows(NullPointerException.class, () -> {
-            resultConverter.convertToEntity(filmDto, characterDto, planetDto);
-        });
-    }
-
 }

@@ -21,7 +21,6 @@ class ReportConverterTest {
 
     @Mock
     private ModelMapper modelMapper;
-
     @InjectMocks
     private ReportConverter reportConverter;
 
@@ -41,7 +40,6 @@ class ReportConverterTest {
         ResultDto resultDto = new ResultDto();
         resultDto.setCharacterId(1L);
         resultDto.setCharacterName("character");
-
         report.getResult().add(result);
         reportDto.setId(1L);
         reportDto.setQueryCriteriaPlanetName("criteria planet");
@@ -63,5 +61,4 @@ class ReportConverterTest {
             reportConverter.convertToDto(null);
         });
     }
-
 }

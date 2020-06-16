@@ -5,13 +5,12 @@ import pl.wuniszewski.starwarsreport.integration.dto.CharacterDto;
 import pl.wuniszewski.starwarsreport.integration.dto.FilmDto;
 import pl.wuniszewski.starwarsreport.integration.dto.PlanetDto;
 import pl.wuniszewski.starwarsreport.report.entity.Result;
-import pl.wuniszewski.starwarsreport.report.exception.IncorrectUrlException;
 import pl.wuniszewski.starwarsreport.report.util.IdFromUrlExtraction;
 
 @Component
 public class ResultConverter {
 
-    public Result convertToEntity(FilmDto film, CharacterDto character, PlanetDto planet) throws IncorrectUrlException {
+    public Result convertToEntity(FilmDto film, CharacterDto character, PlanetDto planet) {
         return new Result.ResultBuilder()
                 .setFilmId(IdFromUrlExtraction.extractIdFromUrl(film.getUrl()))
                 .setFilmName(film.getTitle())

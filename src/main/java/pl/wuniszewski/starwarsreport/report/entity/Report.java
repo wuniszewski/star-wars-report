@@ -6,6 +6,7 @@ import java.util.Set;
 
 @Entity(name = "reports")
 public class Report {
+
     @Id
     private Long id;
     private String queryCriteriaCharacterPhrase;
@@ -17,12 +18,14 @@ public class Report {
     public Report(Long id) {
         this.id = id;
     }
+
     public Report() {
     }
 
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -30,6 +33,7 @@ public class Report {
     public String getQueryCriteriaCharacterPhrase() {
         return queryCriteriaCharacterPhrase;
     }
+
     public void setQueryCriteriaCharacterPhrase(String queryCriteriaCharacterPhrase) {
         this.queryCriteriaCharacterPhrase = queryCriteriaCharacterPhrase;
     }
@@ -37,6 +41,7 @@ public class Report {
     public String getQueryCriteriaPlanetName() {
         return queryCriteriaPlanetName;
     }
+
     public void setQueryCriteriaPlanetName(String queryCriteriaPlanetName) {
         this.queryCriteriaPlanetName = queryCriteriaPlanetName;
     }
@@ -44,6 +49,7 @@ public class Report {
     public Set<Result> getResult() {
         return result;
     }
+
     public void setResult(Set<Result> result) {
         this.result = result;
     }

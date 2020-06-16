@@ -3,6 +3,7 @@ package pl.wuniszewski.starwarsreport.integration.dto;
 import java.util.List;
 
 public class PlanetDto {
+
     private String name;
     private String url;
     private List<String> residents;

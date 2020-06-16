@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ReportDto {
+
     private Long id;
     @JsonProperty("query_criteria_character_phrase")
     private String queryCriteriaCharacterPhrase;
@@ -16,6 +17,7 @@ public class ReportDto {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -23,6 +25,7 @@ public class ReportDto {
     public String getQueryCriteriaCharacterPhrase() {
         return queryCriteriaCharacterPhrase;
     }
+
     public void setQueryCriteriaCharacterPhrase(String queryCriteriaCharacterPhrase) {
         this.queryCriteriaCharacterPhrase = queryCriteriaCharacterPhrase;
     }
@@ -30,6 +33,7 @@ public class ReportDto {
     public String getQueryCriteriaPlanetName() {
         return queryCriteriaPlanetName;
     }
+
     public void setQueryCriteriaPlanetName(String queryCriteriaPlanetName) {
         this.queryCriteriaPlanetName = queryCriteriaPlanetName;
     }
@@ -37,6 +41,7 @@ public class ReportDto {
     public Set<ResultDto> getResult() {
         return result;
     }
+
     public void setResult(Set<ResultDto> result) {
         this.result = result;
     }

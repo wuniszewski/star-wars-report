@@ -9,7 +9,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import pl.wuniszewski.starwarsreport.integration.dto.CharacterDto;
 import pl.wuniszewski.starwarsreport.integration.dto.FilmDto;
 import pl.wuniszewski.starwarsreport.integration.dto.PlanetDto;
-import pl.wuniszewski.starwarsreport.integration.exception.ResourceNotFoundException;
 import pl.wuniszewski.starwarsreport.integration.service.IntegrationService;
 import pl.wuniszewski.starwarsreport.report.converter.ResultConverter;
 import pl.wuniszewski.starwarsreport.report.dto.QueryCriteriaDto;
@@ -39,7 +38,7 @@ class ReportGeneratorServiceTest {
     @InjectMocks
     private ReportGeneratorService service;
 
-    List<Report> reportList = new ArrayList<>();
+    private List<Report> reportList = new ArrayList<>();
 
     @BeforeEach
     private void setUp() {
@@ -114,7 +113,7 @@ class ReportGeneratorServiceTest {
     }
 
     @Test
-    public void createReport_shouldAddNewReportToListGivenAnyParameters() throws ResourceNotFoundException {
+    public void createReport_shouldAddNewReportToListGivenAnyParameters() {
         //given
         QueryCriteriaDto criteria = new QueryCriteriaDto();
         criteria.setQueryCriteriaPlanetName("planet");
@@ -132,8 +131,7 @@ class ReportGeneratorServiceTest {
     }
 
     @Test
-    public void createReport_shouldGenerateAndSaveReportGivenCriteria()
-            throws ResourceNotFoundException, IncorrectUrlException {
+    public void createReport_shouldGenerateAndSaveReportGivenCorrectCriteria() {
         //given
         Result result = new Result.ResultBuilder().setCharacterName("phrase").setFilmName("film").setPlanetName("planet").build();
         QueryCriteriaDto criteria = new QueryCriteriaDto();
@@ -169,8 +167,7 @@ class ReportGeneratorServiceTest {
     }
 
     @Test
-    public void createReport_shouldThrowNotExistingResourceExcGivenResultConversionFail()
-            throws ResourceNotFoundException, IncorrectUrlException {
+    public void createReport_shouldThrowIncorrectUrlExcGivenResultConversionFail() {
         //given
         Result result = new Result.ResultBuilder().setCharacterName("phrase").setFilmName("film").setPlanetName("planet").build();
         QueryCriteriaDto criteria = new QueryCriteriaDto();
@@ -195,14 +192,13 @@ class ReportGeneratorServiceTest {
         when(resultConverter.convertToEntity(any(FilmDto.class), any(CharacterDto.class), any(PlanetDto.class)))
                 .thenThrow(IncorrectUrlException.class);
         //then
-        assertThrows(NotExistingResourceException.class, () -> {
+        assertThrows(IncorrectUrlException.class, () -> {
             service.createReport(2L, criteria);
         });
     }
 
     @Test
-    public void createReport_shouldCreateReportWithoutResultsGivenEmptyPlanetList()
-            throws ResourceNotFoundException, IncorrectUrlException {
+    public void createReport_shouldCreateReportWithoutResultsGivenEmptyPlanetList() {
         //given
         QueryCriteriaDto criteria = new QueryCriteriaDto();
         criteria.setQueryCriteriaPlanetName("planet");
@@ -214,8 +210,9 @@ class ReportGeneratorServiceTest {
         //then
         verify(integrationService, times(0)).getCharacterByEndpoint(anyString());
     }
+
     @Test
-    public void updateReport_shouldChangeIDInListGivenDifferentReport () throws ResourceNotFoundException {
+    public void updateReport_shouldChangeIDInListGivenDifferentReport() {
         //given
         Report oldReport = new Report(10L);
         QueryCriteriaDto criteria = new QueryCriteriaDto();

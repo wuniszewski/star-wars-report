@@ -1,6 +1,7 @@
 package pl.wuniszewski.starwarsreport.integration.dto;
 
 public class FilmDto {
+
     private String title;
     private String url;
 

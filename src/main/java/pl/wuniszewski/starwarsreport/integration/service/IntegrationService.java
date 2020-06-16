@@ -9,7 +9,7 @@ import pl.wuniszewski.starwarsreport.integration.dto.CharacterDto;
 import pl.wuniszewski.starwarsreport.integration.dto.FilmDto;
 import pl.wuniszewski.starwarsreport.integration.dto.PlanetDto;
 import pl.wuniszewski.starwarsreport.integration.dto.PlanetSearchListOutcomeDto;
-import pl.wuniszewski.starwarsreport.integration.exception.ResourceNotFoundException;
+import pl.wuniszewski.starwarsreport.report.exception.NotExistingResourceException;
 
 import java.util.List;
 
@@ -17,34 +17,33 @@ import java.util.List;
 public class IntegrationService {
 
     private RestTemplate restTemplate;
-    @Value("${planetSearchUrlPrefix}")
+    @Value("${star.wars.api.url}")
     private String urlPlanetSearchPrefix;
-
 
     @Autowired
     public IntegrationService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    public List<PlanetDto> getPlanetsByName(String planetName) throws ResourceNotFoundException {
+    public List<PlanetDto> getPlanetsByName(String planetName) {
         return getPlanetSearchListOutcome(planetName).getResults();
     }
 
-    private PlanetSearchListOutcomeDto getPlanetSearchListOutcome(String planetName) throws ResourceNotFoundException {
+    private PlanetSearchListOutcomeDto getPlanetSearchListOutcome(String planetName) {
         PlanetSearchListOutcomeDto planetSearch;
         try {
-            planetSearch = restTemplate.getForObject(urlPlanetSearchPrefix + planetName,
+            planetSearch = restTemplate.getForObject(urlPlanetSearchPrefix + "/planets/?search=" + planetName,
                     PlanetSearchListOutcomeDto.class);
         } catch (RestClientException e) {
             planetSearch = new PlanetSearchListOutcomeDto();
         }
         if (planetSearch == null || planetSearch.getResults() == null) {
-            throw new ResourceNotFoundException();
+            throw new NotExistingResourceException("Wrong URL in resource");
         }
         return planetSearch;
     }
 
-    public CharacterDto getCharacterByEndpoint(String url) throws ResourceNotFoundException {
+    public CharacterDto getCharacterByEndpoint(String url) {
         CharacterDto character;
         try {
             character = restTemplate.getForObject(url, CharacterDto.class);
@@ -52,7 +51,7 @@ public class IntegrationService {
             character = new CharacterDto();
         }
         if (isCharacterNullOrEmpty(character)) {
-            throw new ResourceNotFoundException();
+            throw new NotExistingResourceException("Wrong URL in resource");
         }
         return character;
     }
@@ -61,7 +60,7 @@ public class IntegrationService {
         return character == null || character.getFilms() == null || character.getName() == null | character.getUrl() == null;
     }
 
-    public FilmDto getFilmByEndpoint(String url) throws ResourceNotFoundException {
+    public FilmDto getFilmByEndpoint(String url) {
         FilmDto film;
         try {
             film = restTemplate.getForObject(url, FilmDto.class);
@@ -69,7 +68,7 @@ public class IntegrationService {
             film = new FilmDto();
         }
         if (isFilmNullOrEmpty(film)) {
-            throw new ResourceNotFoundException();
+            throw new NotExistingResourceException("Wrong URL in resource");
         }
         return film;
     }
@@ -77,6 +76,4 @@ public class IntegrationService {
     private boolean isFilmNullOrEmpty(FilmDto film) {
         return film == null || film.getTitle() == null || film.getUrl() == null;
     }
-
-
 }
