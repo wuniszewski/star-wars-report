@@ -15,4 +15,12 @@ public class QueryCriteriaDto {
     public String getQueryCriteriaPlanetName() {
         return queryCriteriaPlanetName;
     }
+
+    public void setQueryCriteriaCharacterPhrase(String queryCriteriaCharacterPhrase) {
+        this.queryCriteriaCharacterPhrase = queryCriteriaCharacterPhrase;
+    }
+
+    public void setQueryCriteriaPlanetName(String queryCriteriaPlanetName) {
+        this.queryCriteriaPlanetName = queryCriteriaPlanetName;
+    }
 }
