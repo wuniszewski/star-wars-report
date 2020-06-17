@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public interface IdFromUrlExtraction {
 
-    static Long extractIdFromUrl (String url) {
+    static Long extractIdFromUrl(String url) {
         Pattern idExtractionPattern = Pattern.compile("(?<![:\\d])[0-9]+");
         Matcher matcher = idExtractionPattern.matcher(url);
         String id = "";

@@ -17,7 +17,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(BadRequestValueException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Incorrect request value")
-    protected ResponseEntity<Object> handleBadRequest (
+    protected ResponseEntity<Object> handleBadRequest(
             RuntimeException exception, WebRequest request) {
         String exceptionMessage = exception.getMessage();
         HttpHeaders headers = new HttpHeaders();
@@ -26,7 +26,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler({NotExistingResourceException.class, IncorrectUrlException.class})
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    protected ResponseEntity<Object> handleNotFoundException (
+    protected ResponseEntity<Object> handleNotFoundException(
             RuntimeException exception, WebRequest request) {
         String exceptionMessage = exception.getMessage();
         return handleExceptionInternal(exception, exceptionMessage, new HttpHeaders(), HttpStatus.NOT_FOUND, request);

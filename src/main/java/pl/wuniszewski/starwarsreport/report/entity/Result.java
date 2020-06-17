@@ -127,7 +127,7 @@ public class Result implements IdFromUrlExtraction {
         }
 
         public ResultBuilder setPlanetName(String planetName) {
-            this.planetName= planetName;
+            this.planetName = planetName;
             return this;
         }
 

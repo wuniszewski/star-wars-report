@@ -16,7 +16,7 @@ public class ReportConverter {
         this.modelMapper = modelMapper;
     }
 
-    public ReportDto convertToDto (Report report) {
+    public ReportDto convertToDto(Report report) {
         return modelMapper.map(report, ReportDto.class);
     }
 }
